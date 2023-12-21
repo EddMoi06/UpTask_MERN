@@ -50,7 +50,48 @@ const autenticar = async (req, res) => {
     }
 }
 
+const confirmar = async (req, res) => {
+
+    const { token } = req.params
+    const usuarioConfirmar = await Usuario.findOne({ token })
+
+    if(!usuarioConfirmar){
+        const error = new Error('Token no Valido')
+        return res.status(403).json({ msg: error.message })
+    }
+
+    try {
+        usuarioConfirmar.confirmado = true
+        usuarioConfirmar.token = ''
+        await usuarioConfirmar.save()
+        res.json({ msg: 'Usuario Confirmado' })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const cambiarPassword = async (req, res) => {
+    const { email } = req.body;
+
+    const usuario = await Usuario.findOne({email})
+
+    if(!usuario){
+        const error = new Error('El usuario no Existe')
+        return res.status(404).json({ msg: error.message })
+    }
+
+    try {
+        usuario.token = generarId()
+        await usuario.save()
+        res.json({ msg: 'Hemos enviado un Email con las Intrucciones'})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export {
     registrar,
-    autenticar
+    autenticar,
+    confirmar,
+    cambiarPassword
 }
