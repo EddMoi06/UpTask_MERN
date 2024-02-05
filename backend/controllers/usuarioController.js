@@ -15,8 +15,10 @@ const registrar = async ( req, res ) => {
     try {
         const usuario = new Usuario(req.body)
         usuario.token = generarId()
-        const usuarioAlmacenado = await usuario.save()
-        res.send(usuarioAlmacenado)
+        await usuario.save()
+        res.json({
+            msg: 'Usuario creado Correctamente, Revisa tu Email para confirmar'
+        })
     } catch (error) {
         console.log(error)
     }
