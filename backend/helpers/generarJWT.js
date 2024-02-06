@@ -6,4 +6,5 @@ const generarJWT = (id) => {
     })
 }
 
+
 export default generarJWT

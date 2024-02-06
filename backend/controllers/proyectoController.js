@@ -106,6 +106,7 @@ const obtenerTareas = async (req, res) => {
     res.json(tareas)
 }
 
+
 export {
     obtenerProyectos,
     nuevoProyecto,

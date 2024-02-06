@@ -17,5 +17,4 @@ router.route('/olvide-password/:token')
 router.get('/perfil', checkAuth, perfil)
 
 
-
 export default router

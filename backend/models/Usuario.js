@@ -45,4 +45,5 @@ usuarioSchema.methods.comprobarPassword = async function(passwordFormulario) {
 
 const Usuario = mongoose.model('Usuario', usuarioSchema)
 
+
 export default Usuario

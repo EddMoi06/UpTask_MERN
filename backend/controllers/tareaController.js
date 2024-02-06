@@ -23,6 +23,7 @@ const agregarTarea = async (req,res) => {
     }
 }
 
+
 const obtenerTarea = async(req,res) => {
     const { id } = req.params;
     const tarea = await Tarea.findById(id).populate('proyecto');

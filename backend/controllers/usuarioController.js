@@ -62,6 +62,7 @@ const confirmar = async (req, res) => {
 
     const { token } = req.params
     const usuarioConfirmar = await Usuario.findOne({ token })
+    
 
     if(!usuarioConfirmar){
         const error = new Error('Token no Valido')

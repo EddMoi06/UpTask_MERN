@@ -7,4 +7,5 @@ const generarId = () => {
     return math + fecha
 }
 
+
 export default generarId

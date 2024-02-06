@@ -28,6 +28,7 @@ export const emailRegistro = async (datos) => {
     })
 }
 
+
 export const emailCambioPassword = async (datos) => {
   const {email, nombre, token } = datos;
 
