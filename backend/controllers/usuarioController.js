@@ -1,6 +1,7 @@
 import Usuario from "../models/Usuario.js"
 import generarId from "../helpers/generarId.js"
 import generarJWT from "../helpers/generarJWT.js"
+import { emailRegistro, emailCambioPassword } from "../helpers/emails.js"
 
 const registrar = async ( req, res ) => {
 
@@ -16,6 +17,11 @@ const registrar = async ( req, res ) => {
         const usuario = new Usuario(req.body)
         usuario.token = generarId()
         await usuario.save()
+        emailRegistro({
+            nombre: usuario.nombre,
+            email: usuario.email,
+            token: usuario.token
+        })
         res.json({
             msg: 'Usuario creado Correctamente, Revisa tu Email para confirmar'
         })
@@ -85,6 +91,13 @@ const cambiarPassword = async (req, res) => {
     try {
         usuario.token = generarId()
         await usuario.save()
+
+        emailCambioPassword({
+            nombre: usuario.nombre,
+            email: usuario.email,
+            token: usuario.token
+        })
+
         res.json({ msg: 'Hemos enviado un Email con las Intrucciones'})
     } catch (error) {
         console.log(error)
@@ -118,7 +131,7 @@ const nuevoPassword = async (req, res) => {
 
         try {
             await usuario.save()
-            res.json({ msg: 'Password cambiado Correctamente'})
+            res.json({ msg: 'Contraseña cambiada Correctamente'})
         } catch (error) {
             console.log(error)
         }

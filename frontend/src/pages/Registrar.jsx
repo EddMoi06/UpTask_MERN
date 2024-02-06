@@ -41,7 +41,7 @@ const Registrar = () => {
     setAlerta({})
 
     try {
-      const {data} = await axios.post('http://localhost:4000/api/usuario', {nombre, email, password})
+      const {data} = await axios.post(`http://localhost:4000/api/usuario`, {nombre, email, password})
       setAlerta({
         msg: data.msg,
         error: false

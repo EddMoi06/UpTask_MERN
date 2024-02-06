@@ -13,7 +13,7 @@ dotenv.config()
 
 conectarDB()
 
-const whitelist = ["http://localhost:5173"]
+const whitelist = ['http://localhost:5173']
 
 const corsOption = {
     origin: function(origin, callback){

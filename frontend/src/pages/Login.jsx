@@ -1,12 +1,59 @@
-import {Link} from 'react-router-dom'
+import { useState } from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import Alerta from '../components/Alerta';
+import axios from 'axios';
+
+import useAuth from '../hooks/useAuth'
 
 const Login = () => {
+
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ alerta, setAlerta ] = useState({})
+
+  const { setUsuario } = useAuth()
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    if([email, password].includes('')){
+      setAlerta({
+        msg: 'Todos los campos son Obligatorios',
+        error: true
+      })
+      return
+    }
+
+    try {
+      const { data } = await axios.post('http://localhost:4000/api/usuario/login', { email, password})
+      console.log(data)
+      setUsuario({
+          nombre: data.nombre,
+          email: data.email,
+          id: data._id,
+          token: data.token
+      })
+      setAlerta({})
+      localStorage.setItem('token', data.token)
+    } catch (error) {
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true
+      })
+      return
+    }
+  }
+
+  const { msg } = alerta
+
   return (
     <>
       <h1 className="text-sky-600 font-black text-6xl capitalize">Inicia Sesión y Administra tus {''}
       <span className="text-slate-700">Proyectos</span> </h1>
 
-      <form className="mt-10 mb-5 p-10 bg-white shadow rounded-lg ">
+      { msg && <Alerta alerta={alerta}/>}
+
+      <form className="mt-10 mb-5 p-10 bg-white shadow rounded-lg " onSubmit={handleSubmit}>
         <div className="my-5">
           <label htmlFor="email" className="uppercase text-gray-600 block text-xl font-bold">Email</label>
           <input 
@@ -14,6 +61,8 @@ const Login = () => {
             type="email" 
             placeholder="Email de Registro"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
           />
         </div>
 
@@ -24,6 +73,8 @@ const Login = () => {
             type="password" 
             placeholder="Contraseña de Registro"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
           />
         </div>
 
